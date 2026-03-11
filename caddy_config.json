@@ -3,8 +3,56 @@
     "http": {
       "servers": {
         "sirtunnel": {
-          "listen": [":443"],
+          "listen": [
+            ":443",
+            ":80"
+          ],
           "routes": [
+            {
+              "match": [
+                {
+                  "host": [
+                    "wiki.comphost.club"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "file_server",
+                  "root": "wiki"
+                }
+              ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
+                    "nl.comphost.club"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "file_server",
+                  "root": "nl"
+                }
+              ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
+                    "comphost.club"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "file_server",
+                  "root": "."
+                }
+              ]
+            }
           ]
         }
       }
