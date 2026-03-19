@@ -1,59 +1,67 @@
 {
+  "logging": {
+  "logs": {
+    "default": {
+      "exclude": [
+        "http.log.access.log0"
+      ]
+    },
+    "log0": {
+      "writer": {
+        "filename": "/home/tunnel/requests.log",
+        "output": "file"
+      },
+      "encoder": {
+        "format": "json"
+      },
+      "include": [
+        "http.log.access.log0"
+      ]
+    }
+  }
+  },
+  
   "apps": {
     "http": {
       "servers": {
         "sirtunnel": {
-          "listen": [
-            ":443",
-            ":80"
-          ],
+          "listen": [":443", ":80"],
           "routes": [
+		   {
+
+	               "match": [{"host": ["comphost.club"]}],
+	               "handle": [
+                      {
+                        "handler": "file_server",
+                        "root": "home"
+                      }
+               ]
+			},
             {
-              "match": [
-                {
-                  "host": [
-                    "wiki.comphost.club"
-                  ]
-                }
-              ],
-              "handle": [
-                {
-                  "handler": "file_server",
-                  "root": "wiki"
-                }
-              ]
+            
+                      "match": [{"host": ["nl.comphost.club"]}],
+                      "handle": [
+                            {
+                              "handler": "file_server",
+                              "root": "nl"
+                            }
+                    ]
             },
             {
-              "match": [
-                {
-                  "host": [
-                    "nl.comphost.club"
+            
+                    "match": [{"host": ["wiki.comphost.club"]}],
+                    "handle": [
+                          {
+                            "handler": "file_server",
+                            "root": "wiki"
+                          }
                   ]
-                }
-              ],
-              "handle": [
-                {
-                  "handler": "file_server",
-                  "root": "nl"
-                }
-              ]
-            },
-            {
-              "match": [
-                {
-                  "host": [
-                    "comphost.club"
-                  ]
-                }
-              ],
-              "handle": [
-                {
-                  "handler": "file_server",
-                  "root": "."
-                }
-              ]
             }
-          ]
+          ],
+          
+          "logs": {
+            "default_logger_name": "log0"
+          }
         }
       }
     }
